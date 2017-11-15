@@ -1,5 +1,11 @@
+"""
+Genetic Algorithm
+"""
+
+import rng
 target_phrase = "The night is young and full of rest."
 length = len(target_phrase)
+pop_size = 50
 
 def run_genetic_algo(num_steps):
     creatures = init_creatures()
@@ -8,6 +14,7 @@ def run_genetic_algo(num_steps):
         creatures = sort_by_fitness(creatures)
         print "Iteration {}:".format(i)
         print creatures[0]
+        print "Fitness{}:", fit_calc(creatures[0])
         creatures = remove_worst(creatures)
         children = create_offspring(creatures)
         creatures += children
@@ -16,7 +23,18 @@ def run_genetic_algo(num_steps):
 
 def init_creatures():
     """Returns a list of random strings of length length."""
-    return ["0" * length]  # TODO: placeholder (homework possibility)
+    c = []
+    for i in xrange(pop_size):
+        c.append(rng.rstring(length))
+    return c
+
+def fit_calc(creature):
+    fitness = 0
+    for i in xrange(len(creature)):
+        if creature[i] == target_phrase[i]:
+            fitness -= 1
+    return fitness
+
 
 def sort_by_fitness(creatures):
     """Returns the input list of creatures sorted by fitness, i.e.,
@@ -35,7 +53,7 @@ def create_offspring(creatures):
     """Create some offspring through mutation and / or crossover."""
     return []  # TODO: placeholder
 
-result = run_genetic_algo(1000)
+result = run_genetic_algo(8)
 
 print "Winner:"
 print result[0]
